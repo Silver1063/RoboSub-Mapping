@@ -3,12 +3,13 @@
 
 #include <string>
 
-class Node {
- private:
-  std::string tag;
-  int UID;
+class Node
+{
+  private:
+    std::string tag;
+    int UID;
 
- public:
-  Node();
+  public:
+    Node();
 };
 #endif

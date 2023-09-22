@@ -6,7 +6,8 @@
 
 std::map<int, Node> UID;
 
-int main() {
-  std::cout << "FAGGOT KYS" << std::endl;
-  return 0;
+int main()
+{
+    std::cout << "FAGGOT KYS" << std::endl;
+    return 0;
 }
