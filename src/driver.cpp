@@ -1,13 +1,9 @@
-//#include "./mapping_node.hpp"
-#include <iostream>
-#include "./mapping.hpp"
+cd #include "./mapping_node.hpp"
 
 int main(int argc, char *argv[])
 {
-    //rclcpp::init(argc, argv);
-    //rclcpp::spin(std::make_shared<MappingNode>());
-    //rclcpp::shutdown();
-    Mapping mapping;
-    std::cout << "bannana"<< std::endl;
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<MappingNode>());
+    rclcpp::shutdown();
     return 0;
 }

@@ -1,7 +1,7 @@
 #include <iostream>
 //#include <vector>
 
-#include "../include/mapping.hpp"
+#include "./mapping.hpp"
 
 Mapping::Mapping()
 {

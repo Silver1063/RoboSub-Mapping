@@ -3,12 +3,12 @@
 #include <memory>
 #include <string>
 
-// #include "../include/mapping.hpp"
-#include "../include/mapping_node.hpp"
+#include "./mapping.hpp"
+#include "./mapping_node.hpp"
 
 using namespace std::chrono_literals;
 
-MappingNode::MappingNode() : Node("mapping"), count_(0)
+MappingNode::MappingNode() : Node("MappingNode"), count_(0)
 {
     publisher_ = this->create_publisher<std_msgs::msg::String>("topic_out", 10);
     // subscription_ = this->create_subscription<std_msgs::msg::String>(
