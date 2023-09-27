@@ -14,11 +14,16 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-add_executable(mapper src/driver.cpp)
+add_executable(mapper src/mapping_node.cpp)
 ament_target_dependencies(mapper rclcpp std_msgs)
 
 file(GLOB SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
 target_sources(mapper PRIVATE ${SRC_FILES})
+
+target_include_directories(mapper
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
 
 install(TARGETS
   mapper

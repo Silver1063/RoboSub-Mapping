@@ -1,14 +1,15 @@
-#include <iostream>
-//#include <vector>
-
 #include "./mapping.hpp"
 
 Mapping::Mapping()
 {
-    test=11;
-    map_cell new_cell;
-    //cell.tag = "test";
-    std::cout << "Hello MFer!!!" << std::endl;
+    std::cout << transform << std::endl;
+
+    Vector3f a;
+    a << 1, 1, 1;
+    Vector3f b;
+    b << 2, 3, -1;
+
+    sdf_box(a, b);
 }
 
 Mapping::~Mapping()
@@ -16,7 +17,9 @@ Mapping::~Mapping()
     std::cout << "kbyeeeee" << std::endl;
 }
 
-int Mapping::function_placeholder(int arg)
+float Mapping::sdf_box(Vector3f p, Vector3f b)
 {
-    return arg + test;
+    Vector3f q = p.cwiseAbs() - b;
+    std::cout << q << std::endl;
+    return 0.0;
 }
