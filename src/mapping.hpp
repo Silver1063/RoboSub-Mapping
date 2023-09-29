@@ -12,13 +12,14 @@ public:
   Mapping();
   ~Mapping();
 
-  float sdf_box(Vector3f p, Vector3f b);
+  float sdf_box(Vector3f p, Vector3f b, Matrix4f t = Matrix4f::Identity());
 
 private:
   Matrix4f transform = Matrix4f::Identity();
-
-  int test = 10;
-  int update_map(int arg);
+  
+  void ready();
+  void update();
+  
 
   struct map_cell
   {
