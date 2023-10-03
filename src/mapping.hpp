@@ -38,7 +38,7 @@ class Mapping
     struct MapCell
     {
         uint8_t shape;
-        Matrix4f transform;
+        Matrix4f *transform;
         // std::string tags;
     };
 

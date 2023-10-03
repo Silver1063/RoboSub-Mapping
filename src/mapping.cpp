@@ -8,13 +8,15 @@ using namespace std;
 Mapping::Mapping()
 {
 
-    int x = 3; // 50;
-    int y = 3; // 25;
-    int z = 3; // 2;
+    int ROW = 50;
+    int COL = 50;
+    int LAY = 10;
 
-    vector<vector<vector<MapCell *>>> map(z, vector<vector<MapCell *>>(y, vector<MapCell *>(x, nullptr)));
+    vector<vector<vector<MapCell *>>> map(ROW, vector<vector<MapCell *>>(COL, vector<MapCell *>(LAY)));
 
-    int all = x * y * z;
+    int all = ROW * COL * LAY;
+
+    Matrix4f identity = Matrix4f::Identity();
 
     for (int i = 0; i < map.size(); i++)
     {
@@ -24,7 +26,7 @@ Mapping::Mapping()
             {
                 MapCell *new_cell = new MapCell;
                 new_cell->shape = SDF_CUBE;
-                new_cell->transform = Matrix4f::Identity();
+                new_cell->transform = &identity;
                 // new_cell->tags = "asdfasdfasdfasdfasf";
                 map[i][j][k] = new_cell;
             }
@@ -49,10 +51,10 @@ Mapping::Mapping()
 
     // ros2 messages
 
-    std::cout << map.capacity() << std::endl;
-    std::cout << map[0].capacity() << std::endl;
-    std::cout << map[0][0].capacity() << std::endl;
-    std::cout << sizeof(map) << std::endl;
+    int size_in_bytes = sizeof(map) + sizeof(MapCell) * map.size() * map[0].size() * map[0][0].size();
+
+    std::cout << sizeof(MapCell) << " bytes " << std::endl;
+    std::cout << size_in_bytes / 1000000.0 << " MB " << std::endl;
 
     Vector3f a(1, 1, 1);
     Vector3f b(1, 1, 1);

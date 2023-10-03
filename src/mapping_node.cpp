@@ -52,20 +52,22 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    int x = 1920;
-    int y = 1080;
+    int x = 800;
+    int y = 600;
 
 
     window = SDL_CreateWindow("Mapping Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, x, y, SDL_WINDOW_SHOWN);
 
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    
     Mapping mapping;
 
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<MappingNode>());
     rclcpp::shutdown();
 
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    
 
     return 0;
 }
