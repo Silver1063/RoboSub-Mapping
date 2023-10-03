@@ -14,11 +14,18 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+
 add_executable(mapper src/mapping_node.cpp)
 ament_target_dependencies(mapper rclcpp std_msgs)
 
 file(GLOB SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
+
 target_sources(mapper PRIVATE ${SRC_FILES})
+
+target_link_libraries(mapper ${SDL2_LIBRARIES})
 
 target_include_directories(mapper
   PUBLIC
