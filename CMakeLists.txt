@@ -13,19 +13,23 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+find_package(Eigen3 REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(glfw3 3.3 REQUIRED)
+find_package(OpenGL REQUIRED)
 
 
 add_executable(mapper src/mapping_node.cpp)
-ament_target_dependencies(mapper rclcpp std_msgs)
+
+target_link_libraries(mapper glfw)
+target_link_libraries(mapper OpenGL::GL)
+
+ament_target_dependencies(mapper rclcpp std_msgs Eigen3)
+
+
 
 file(GLOB SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
-
 target_sources(mapper PRIVATE ${SRC_FILES})
-
-target_link_libraries(mapper ${SDL2_LIBRARIES})
 
 target_include_directories(mapper
   PUBLIC

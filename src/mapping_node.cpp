@@ -3,7 +3,9 @@
 #include <memory>
 #include <string>
 
-#include <SDL2/SDL.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+// #include <glm/glm.hpp>
 
 #include "./mapping.hpp"
 #include "./mapping_node.hpp"
@@ -43,31 +45,43 @@ void MappingNode::topic_callback(const std_msgs::msg::String &msg) const
 
 int main(int argc, char *argv[])
 {
-    SDL_Window *window = NULL;
-    SDL_Surface *screen_surface = NULL;
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    GLFWwindow* window;
+
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
+
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    if (!window)
     {
-        std::cout << "fuck" << std::endl;
-        return 0;
+        glfwTerminate();
+        return -1;
     }
 
-    int x = 800;
-    int y = 600;
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
 
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
+    {
+        /* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
 
-    window = SDL_CreateWindow("Mapping Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, x, y, SDL_WINDOW_SHOWN);
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
 
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-    
+        /* Poll for and process events */
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
     Mapping mapping;
 
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<MappingNode>());
     rclcpp::shutdown();
-
-    
 
     return 0;
 }
