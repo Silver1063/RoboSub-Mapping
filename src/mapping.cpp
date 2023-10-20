@@ -51,15 +51,10 @@ Mapping::Mapping()
 
     // ros2 messages
 
-    int size_in_bytes = sizeof(map) + sizeof(MapCell) * map.size() * map[0].size() * map[0][0].size();
+    //Vector3f a(1, 1, 1);
+    //Vector3f b(1, 1, 1);
 
-    std::cout << sizeof(MapCell) << " bytes " << std::endl;
-    std::cout << size_in_bytes / 1000000.0 << " MB " << std::endl;
-
-    Vector3f a(1, 1, 1);
-    Vector3f b(1, 1, 1);
-
-    sdf_box(a, b);
+    //sdf_box(a, b);
 }
 
 Mapping::~Mapping()

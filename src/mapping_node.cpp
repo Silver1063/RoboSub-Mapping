@@ -3,13 +3,19 @@
 #include <memory>
 #include <string>
 
+//comment out one or the other not both or else
+//#define VISUALIZER 1
+#undef VISUALIZER
+
+#ifdef VISUALIZER
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 // #include <glm/glm.hpp>
+#endif
 
-#include "./process_monitor.cpp"
 #include "./mapping.hpp"
 #include "./mapping_node.hpp"
+#include "./process_monitor.cpp"
 
 using namespace std::chrono_literals;
 
@@ -33,9 +39,8 @@ MappingNode::~MappingNode()
 
 void MappingNode::timer_callback()
 {
-    double vm, rs;
-    process_mem_usage(vm, rs);
-    std::cout << vm / 1000000.0 << " MB " << " " << rs / 1000000.0 << " MB " << std::endl;
+    process_mem_usage();
+
     auto message = std_msgs::msg::String();
     message.data = "Hello, world! " + std::to_string(count_++);
     RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
@@ -49,13 +54,11 @@ void MappingNode::topic_callback(const std_msgs::msg::String &msg) const
 
 int main(int argc, char *argv[])
 {
-
-    GLFWwindow* window;
-
+    #ifdef VISUALIZER
+    GLFWwindow *window;
     /* Initialize the library */
     if (!glfwInit())
         return -1;
-
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
     if (!window)
@@ -63,10 +66,8 @@ int main(int argc, char *argv[])
         glfwTerminate();
         return -1;
     }
-
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
-
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -79,10 +80,13 @@ int main(int argc, char *argv[])
         /* Poll for and process events */
         glfwPollEvents();
     }
-
     glfwTerminate();
+    #endif
+    
     Mapping mapping;
-
+    
+    process_mem_usage();
+    
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<MappingNode>());
     rclcpp::shutdown();
