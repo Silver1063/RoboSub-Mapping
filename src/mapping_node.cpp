@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 // #include <glm/glm.hpp>
 
+#include "./process_monitor.cpp"
 #include "./mapping.hpp"
 #include "./mapping_node.hpp"
 
@@ -32,6 +33,9 @@ MappingNode::~MappingNode()
 
 void MappingNode::timer_callback()
 {
+    double vm, rs;
+    process_mem_usage(vm, rs);
+    std::cout << vm / 1000000.0 << " MB " << " " << rs / 1000000.0 << " MB " << std::endl;
     auto message = std_msgs::msg::String();
     message.data = "Hello, world! " + std::to_string(count_++);
     RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
