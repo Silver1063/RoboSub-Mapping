@@ -25,7 +25,7 @@ Mapping::Mapping()
             for (int k = 0; k < map[i][j].size(); k++)
             {
                 MapCell *new_cell = new MapCell;
-                new_cell->shape = SDF_CUBE;
+                new_cell->shape = SDF_EMPTY;
                 new_cell->transform = &identity;
                 // new_cell->tags = "asdfasdfasdfasdfasf";
                 map[i][j][k] = new_cell;
@@ -51,10 +51,10 @@ Mapping::Mapping()
 
     // ros2 messages
 
-    //Vector3f a(1, 1, 1);
-    //Vector3f b(1, 1, 1);
+    // Vector3f a(1, 1, 1);
+    // Vector3f b(1, 1, 1);
 
-    //sdf_box(a, b);
+    // sdf_box(a, b);
 }
 
 Mapping::~Mapping()
@@ -62,10 +62,29 @@ Mapping::~Mapping()
     std::cout << "kbyeeeee" << std::endl;
 }
 
+float Mapping::sdf_empty()
+{
+    return -1;
+}
+
+
 float Mapping::sdf_box(Vector3f p, Vector3f b, Matrix4f t)
 {
-    //
-    // p = p * t.inverse();
     Vector3f q = p.cwiseAbs() - b;
     return fmax(q.norm(), 0.0) + fmin(fmax(q.x(), fmax(q.y(), q.z())), 0.0);
+}
+
+
+float Mapping::sdf_sphere(Vector3f p, float s, Matrix4f t)
+{
+    return p.norm() - s;
+}
+
+
+float Mapping::sdf_torus(Vector3f p, Vector2f ts, Matrix4f t)
+{
+    float x = Vector3f(p.x(), 0.f, p.z()).norm() - ts.x();
+    float y = p.y();
+    Vector2f q = Vector2f(x, y);
+    return q.norm() - ts.y();
 }

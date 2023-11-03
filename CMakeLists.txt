@@ -21,6 +21,7 @@ find_package(OpenGL REQUIRED)
 
 add_executable(mapper src/mapping_node.cpp)
 
+target_link_libraries(mapper GLEW)
 target_link_libraries(mapper glfw)
 target_link_libraries(mapper OpenGL::GL)
 
@@ -28,7 +29,9 @@ ament_target_dependencies(mapper rclcpp std_msgs Eigen3)
 
 
 
-file(GLOB SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
+file(GLOB SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp
+                    ${PROJECT_SOURCE_DIR}/src/common/*.cpp)
+
 target_sources(mapper PRIVATE ${SRC_FILES})
 
 target_include_directories(mapper

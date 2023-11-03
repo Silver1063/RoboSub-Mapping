@@ -2,7 +2,7 @@
 #define MAPPING_HPP
 
 #include <Eigen/Dense>
-// #include <Eigen/CXX11/Tensor>
+
 
 using namespace Eigen;
 
@@ -28,11 +28,11 @@ class Mapping
 
     float sdf_empty();
 
-    float sdf_box(Vector3f p, Vector3f b, Matrix4f t = Matrix4f::Identity());
+    float sdf_box(Vector3f p, Vector3f b, Matrix4f ts = Matrix4f::Identity());
 
-    float sdf_sphere();
+    float sdf_sphere(Vector3f p, float s, Matrix4f ts = Matrix4f::Identity());
 
-    float sdf_torus();
+    float sdf_torus(Vector3f p, Vector2f t, Matrix4f ts = Matrix4f::Identity());
 
   private:
     struct MapCell
