@@ -18,29 +18,26 @@ find_package(GLEW REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
 find_package(OpenGL REQUIRED)
 
+add_executable(driver src/mapping_node.cpp)
 
-add_executable(mapper src/mapping_node.cpp)
+target_link_libraries(driver GLEW)
+target_link_libraries(driver glfw)
+target_link_libraries(driver OpenGL::GL)
 
-target_link_libraries(mapper GLEW)
-target_link_libraries(mapper glfw)
-target_link_libraries(mapper OpenGL::GL)
-
-ament_target_dependencies(mapper rclcpp std_msgs Eigen3)
-
-
+ament_target_dependencies(driver rclcpp std_msgs Eigen3)
 
 file(GLOB SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp
                     ${PROJECT_SOURCE_DIR}/src/common/*.cpp)
 
-target_sources(mapper PRIVATE ${SRC_FILES})
+target_sources(driver PRIVATE ${SRC_FILES})
 
-target_include_directories(mapper
+target_include_directories(driver
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 
 install(TARGETS
-  mapper
+  driver
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

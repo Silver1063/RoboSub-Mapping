@@ -3,40 +3,36 @@
 
 #include "./mapping.hpp"
 
-using namespace std;
+#include "./process_monitor.hpp"
+
+#include "./spatial_map.hpp"
+
+struct MapCell {
+    uint8_t shape;
+    Matrix4f transform;
+    // std::string tags;
+};
 
 Mapping::Mapping()
 {
+    MapCell* default_cell = new MapCell;
+    default_cell->shape = SDF_EMPTY;
+    default_cell->transform = Matrix4f::Identity();
 
-    int ROW = 50;
-    int COL = 50;
-    int LAY = 10;
+    SpatialMap<MapCell> spatial_map(100, 100, 50);
 
-    vector<vector<vector<MapCell *>>> map(ROW, vector<vector<MapCell *>>(COL, vector<MapCell *>(LAY)));
-
-    int all = ROW * COL * LAY;
-
-    Matrix4f identity = Matrix4f::Identity();
-
-    for (int i = 0; i < map.size(); i++)
-    {
-        for (int j = 0; j < map[i].size(); j++)
-        {
-            for (int k = 0; k < map[i][j].size(); k++)
-            {
-                MapCell *new_cell = new MapCell;
-                new_cell->shape = SDF_EMPTY;
-                new_cell->transform = &identity;
-                // new_cell->tags = "asdfasdfasdfasdfasf";
-                map[i][j][k] = new_cell;
+    // int counter = 0;
+    for (int z = 0; z < spatial_map.size(2); z++) {
+        for (int y = 0; y < spatial_map.size(1); y++) {
+            for (int x = 0; x < spatial_map.size(0); x++) {
+                spatial_map.set(x, y, z, default_cell);
             }
         }
     }
 
     //
-    //
     // topographic map
-    // Graph<MapCell>
+    // LogicalMap<MapCell>
 
     // use pointers for cells so that changes are reflected in both maps
 
@@ -62,29 +58,26 @@ Mapping::~Mapping()
     std::cout << "kbyeeeee" << std::endl;
 }
 
-float Mapping::sdf_empty()
-{
-    return -1;
-}
+// float Mapping::sdf_empty()
+// {
+//     return -1;
+// }
 
+// float Mapping::sdf_box(Vector3f p, Vector3f b, Matrix4f t)
+// {
+//     Vector3f q = p.cwiseAbs() - b;
+//     return fmax(q.norm(), 0.0) + fmin(fmax(q.x(), fmax(q.y(), q.z())), 0.0);
+// }
 
-float Mapping::sdf_box(Vector3f p, Vector3f b, Matrix4f t)
-{
-    Vector3f q = p.cwiseAbs() - b;
-    return fmax(q.norm(), 0.0) + fmin(fmax(q.x(), fmax(q.y(), q.z())), 0.0);
-}
+// float Mapping::sdf_sphere(Vector3f p, float s, Matrix4f t)
+// {
+//     return p.norm() - s;
+// }
 
-
-float Mapping::sdf_sphere(Vector3f p, float s, Matrix4f t)
-{
-    return p.norm() - s;
-}
-
-
-float Mapping::sdf_torus(Vector3f p, Vector2f ts, Matrix4f t)
-{
-    float x = Vector3f(p.x(), 0.f, p.z()).norm() - ts.x();
-    float y = p.y();
-    Vector2f q = Vector2f(x, y);
-    return q.norm() - ts.y();
-}
+// float Mapping::sdf_torus(Vector3f p, Vector2f ts, Matrix4f t)
+// {
+//     float x = Vector3f(p.x(), 0.f, p.z()).norm() - ts.x();
+//     float y = p.y();
+//     Vector2f q = Vector2f(x, y);
+//     return q.norm() - ts.y();
+// }
