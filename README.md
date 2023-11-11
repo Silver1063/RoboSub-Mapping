@@ -19,6 +19,15 @@ Clone the repo obviously dumbass silly
 
 ## Building
 
+Navigate to ros workspace folder
+
+Run these commands
+```
+colcon build --packages-select mapping
+. install/setup.bash
+ros2 run mapping driver
+```
+
 ## how it works
 
 ## Dependencies
