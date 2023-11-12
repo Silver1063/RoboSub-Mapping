@@ -7,28 +7,28 @@
 
 #include "./spatial_map.hpp"
 
-struct MapCell {
-    uint8_t shape;
-    Matrix4f transform;
-    // std::string tags;
-};
-
 Mapping::Mapping()
 {
-    MapCell* default_cell = new MapCell;
-    default_cell->shape = SDF_EMPTY;
-    default_cell->transform = Matrix4f::Identity();
+    //MapCell* default_cell = new MapCell;
 
-    SpatialMap<MapCell> spatial_map(100, 100, 50);
+    SpatialMap<int> spatial_map(4, 4, 4);
 
-    // int counter = 0;
+    int counter = 0;
     for (int z = 0; z < spatial_map.size(2); z++) {
         for (int y = 0; y < spatial_map.size(1); y++) {
             for (int x = 0; x < spatial_map.size(0); x++) {
-                spatial_map.set(x, y, z, default_cell);
+                spatial_map.set(x, y, z, &counter);
             }
         }
     }
+
+
+    spatial_map.print();
+
+    MapCell i;
+    
+    std::cout << "default int: " << i.shape << std::endl;
+
 
     //
     // topographic map

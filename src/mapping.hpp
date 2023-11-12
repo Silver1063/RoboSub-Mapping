@@ -5,20 +5,28 @@
 
 using namespace Eigen;
 
+enum sdf_type {
+    SDF_EMPTY,
+    SDF_CUBE,
+    SDF_SPHERE,
+    SDF_TORUS,
+};
+
+// I should probably read the rules for the competition huh?
+enum object_type {
+    TERRAIN,
+    GOAL,
+    TARGET,
+};
+
+struct MapCell {
+    uint8_t shape = SDF_EMPTY;
+    Matrix4f transform = Matrix4f::Identity();
+    // std::string tags;
+};
+
 class Mapping {
 public:
-    enum sdf_type {
-        SDF_EMPTY,
-        SDF_CUBE,
-        SDF_SPHERE,
-        SDF_TORUS,
-    };
-
-    // I should probably read the rules for the competition huh?
-    enum object_type {
-        TERRAIN,
-    };
-
     Mapping();
     ~Mapping();
 
@@ -31,9 +39,6 @@ public:
     // float sdf_torus(Vector3f p, Vector2f t, Matrix4f ts = Matrix4f::Identity());
 
 private:
-    // LINE HERE LMAO
-    Matrix4f transform = Matrix4f::Identity();
-
     void ready();
 
     void update();
