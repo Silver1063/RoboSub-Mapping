@@ -11,7 +11,7 @@ Mapping::Mapping()
 {
     //MapCell* default_cell = new MapCell;
 
-    SpatialMap<int> spatial_map(4, 4, 4);
+    SpatialMap<int> spatial_map(3, 3, 3);
 
     int counter = 0;
     for (int z = 0; z < spatial_map.size(2); z++) {
